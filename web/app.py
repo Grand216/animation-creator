@@ -7,6 +7,9 @@ from media.s3_storage import S3MediaStorage
 
 app = Flask(__name__)
 
+s3 = boto3.resource('s3')
+media_storage = S3MediaStorage(s3, os.getenv('APP_BUCKET_NAME'))
+
 @app.route("/")
 def hello():
   return render_template('upload_files.html')
