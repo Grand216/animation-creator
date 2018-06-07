@@ -29,10 +29,18 @@ def handle_upload():
      source=uploaded_file
   )
 
-
-
   return "OK"
 
+@app.route("/proceed")
+def procced_animation():
+  ani_request = {
+    "email": request.request.email,
+    "photos": photos_list
+  }
+
+  requestsQueue.send_message(
+    MessageBody=json.dumps(ani_request)
+  )
 
 
 if __name__ == '__main__':
