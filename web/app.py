@@ -3,7 +3,6 @@ import os
 
 from flask import Flask
 from flask import render_template
-from media.nameing import generate_name
 from media.s3_storage import S3MediaStorage
 
 app = Flask(__name__)
@@ -21,13 +20,17 @@ def handle_upload():
   if 'uploaded_file' not in request.files:
     flash('No files')
     return redirect(request.url)
-  uploaded_file = request.files['uploaded_file']
-  ref_file = generate_name(uploaded_file.filename)
+    uploaded_file = request.files['uploaded_file']
   media_storage.store(
-    dest=ref_file
-    source=uploaded_file
+     dest="/uploaded/%s" % uploaded_file.filename,
+     source=uploaded_file
   )
+
+
+
   return "OK"
+
+
 
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=8080, debug=True)
